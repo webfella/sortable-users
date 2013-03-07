@@ -33,7 +33,16 @@ if (version_compare($wp_version,"3.1","<")) { exit($exit_msg_ver); }
 
 class WEBFELLA_SU {
 
+}
 
+// donate link on plugins page
+add_filter('plugin_row_meta', 'registerdate_donate_link', 10, 2);
+function registerdate_donate_link($links, $file) {
+	if ($file == plugin_basename(__FILE__)) {
+		$donate_link = '<a href="http://www.webfella.com.au/wordpress/donate/">Donate</a>';
+		$links[] = $donate_link;
+	}
+	return $links;
 }
 
 ?>
