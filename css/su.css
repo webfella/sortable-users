@@ -6,4 +6,7 @@
 
 /*! Sortable Users plugin styles */
 table.widefat, table.widefat tbody tr {background-color:#f9f9f9;}
+table.widefat tbody tr {cursor:move;}
 table.widefat tbody tr.alternate, table.widefat tbody tr.alt {background-color:#fcfcfc;}
+table.widefat th.check-column {padding-left:25px;}
+table.widefat tbody th.check-column {background:transparent url('../images/icon-sort.gif') no-repeat left center;}
