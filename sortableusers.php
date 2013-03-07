@@ -62,6 +62,33 @@ class WEBFELLA_SU {
 		$columns['user_order'] = __('Order', 'user_order');
 		return $columns;
 	}
+	
+	// Display the column content
+	function userorder_column( $value, $column_name, $user_id ) {
+		if ( 'user_order' != $column_name ) { return $value; }
+		$user = get_userdata( $user_id );
+		$order_button = '<span class="su_sort" data-su-user-id="'. $user_id .'">'. get_user_meta($user_id, 'user_order', true) .'</span>';
+		return $order_button;
+	}
+
+	// Map column to sorting value
+	function userorder_column_sortable($columns) {
+		$custom = array(
+			'user_order'    => 'user_order'
+		);
+		return wp_parse_args($custom, $columns);
+	}
+
+	// order users by column
+	function userorder_column_orderby( $vars ) {
+		if ( isset( $vars['orderby'] ) && 'user_order' == $vars['orderby'] ) {
+			$vars = array_merge( $vars, array(
+				'meta_key' => 'user_order',
+				'orderby' => 'meta_value'
+			) );
+		}
+		return $vars;
+	}
 
 }
 
@@ -70,6 +97,9 @@ register_activation_hook(__FILE__, array('WEBFELLA_SU', 'prepareDb'));
 add_action('user_register', array('WEBFELLA_SU', 'prepareDb'));
 add_action('admin_init', array('WEBFELLA_SU','load_assets'));
 add_filter('manage_users_columns', array('WEBFELLA_SU','userorder'));
+add_action('manage_users_custom_column',  array('WEBFELLA_SU','userorder_column'), 10, 3);
+add_filter('manage_users_sortable_columns', array('WEBFELLA_SU','userorder_column_sortable'));
+add_filter('request', array('WEBFELLA_SU','userorder_column_orderby'));
 
 // donate link on plugins page
 add_filter('plugin_row_meta', 'registerdate_donate_link', 10, 2);
