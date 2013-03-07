@@ -33,7 +33,22 @@ if (version_compare($wp_version,"3.1","<")) { exit($exit_msg_ver); }
 
 class WEBFELLA_SU {
 
+	// add custom db order fields to users when plugin activated
+	function prepareDb() {
+		$users = get_users();
+		foreach ($users as $user) {
+			if (empty($user->user_order)) {
+				$userID = $user->ID;
+				add_user_meta($userID, 'user_order', $userID, true);
+			}
+		}
+	}
+
 }
+
+// Actions
+register_activation_hook(__FILE__, array('WEBFELLA_SU', 'prepareDb'));
+add_action('user_register', array('WEBFELLA_SU', 'prepareDb'));
 
 // donate link on plugins page
 add_filter('plugin_row_meta', 'registerdate_donate_link', 10, 2);
