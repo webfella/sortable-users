@@ -44,11 +44,25 @@ class WEBFELLA_SU {
 		}
 	}
 
+	// Load assets only on the admin users page
+	function load_assets() {
+		global $pagenow;
+		if ($pagenow === 'users.php') {
+			$relPath = plugins_url() . '/sortable-users';
+			wp_enqueue_script('sortuserscriptslibs', $relPath . '/js/libs/jquery-ui.min.js', array('jquery'));
+			wp_enqueue_script('sortuserscripts', $relPath . '/js/su.js', array('sortuserscriptslibs'));
+			wp_register_style('sortuserstyles', $relPath . '/css/su.css');
+			wp_enqueue_style('sortuserstyles');
+			wp_localize_script( 'sortuserscripts', 'sortable_users_data', array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
+		}
+	}
+
 }
 
 // Actions
 register_activation_hook(__FILE__, array('WEBFELLA_SU', 'prepareDb'));
 add_action('user_register', array('WEBFELLA_SU', 'prepareDb'));
+add_action('admin_init', array('WEBFELLA_SU','load_assets'));
 
 // donate link on plugins page
 add_filter('plugin_row_meta', 'registerdate_donate_link', 10, 2);
