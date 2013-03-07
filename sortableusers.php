@@ -57,12 +57,19 @@ class WEBFELLA_SU {
 		}
 	}
 
+	// Register the column - Order
+	function userorder($columns) {
+		$columns['user_order'] = __('Order', 'user_order');
+		return $columns;
+	}
+
 }
 
 // Actions
 register_activation_hook(__FILE__, array('WEBFELLA_SU', 'prepareDb'));
 add_action('user_register', array('WEBFELLA_SU', 'prepareDb'));
 add_action('admin_init', array('WEBFELLA_SU','load_assets'));
+add_filter('manage_users_columns', array('WEBFELLA_SU','userorder'));
 
 // donate link on plugins page
 add_filter('plugin_row_meta', 'registerdate_donate_link', 10, 2);
