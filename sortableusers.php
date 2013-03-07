@@ -90,6 +90,13 @@ class WEBFELLA_SU {
 		return $vars;
 	}
 
+	// update users with order via ajax
+	function userorder_ajax() {
+		global $wpdb;
+		update_user_meta($_POST['user_ID'], 'user_order', $_POST['user_value']);
+		die();
+	}
+
 	// insert sorting link to wp menu by default
 	function edit_user_menu() {  
 		global $menu;
@@ -106,6 +113,7 @@ add_filter('manage_users_columns', array('WEBFELLA_SU','userorder'));
 add_action('manage_users_custom_column',  array('WEBFELLA_SU','userorder_column'), 10, 3);
 add_filter('manage_users_sortable_columns', array('WEBFELLA_SU','userorder_column_sortable'));
 add_filter('request', array('WEBFELLA_SU','userorder_column_orderby'));
+add_action('wp_ajax_my_action', array('WEBFELLA_SU','userorder_ajax'));
 add_action('admin_menu', array('WEBFELLA_SU','edit_user_menu'));
 
 // donate link on plugins page
