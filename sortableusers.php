@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Sortable Users
-Plugin URI: http://www.webfella.com.au/wordpress/sortable-users/
+Plugin URI: http://github.com/webfella/sortable-users
 Description: Easily sort users by dragging and dropping them within the user admin section.
 Version: 1.0
 Author: Adrian Bruinhout
